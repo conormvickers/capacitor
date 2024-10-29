@@ -7,7 +7,8 @@
     "dev": "nuxt dev --port 3002",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "cap": "npx nuxi generate && npx cap sync && npx cap run ios"
   },
   "dependencies": {
     "@capacitor/app": "6.0.1",
@@ -16,15 +17,21 @@
     "@capacitor/ios": "6.1.2",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/status-bar": "6.0.1",
+    "@mdi/font": "^7.4.47",
     "@nuxtjs/ionic": "^0.15.1",
     "echarts": "^5.5.1",
     "handsontable": "^14.6.1",
     "hyperformula": "^2.7.1",
     "nuxt": "^3.13.2",
+    "vis-network": "^9.1.9",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuetify-nuxt-module": "^0.18.3"
   },
   "devDependencies": {
-    "@capacitor/cli": "6.1.2"
+    "@capacitor/cli": "6.1.2",
+    "@vue/cli-service": "5.0.8",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vuetify": "^3.7.3"
   }
 }

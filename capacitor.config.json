@@ -1,5 +1,10 @@
 {
   "appId": "io.ionic.starter",
   "appName": "nuxt-app",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
 }

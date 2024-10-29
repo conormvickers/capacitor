@@ -2,6 +2,6 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/ionic"],
+  modules: ["@nuxtjs/ionic", "vuetify-nuxt-module"],
   ssr: false
 });
