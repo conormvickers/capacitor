@@ -1,0 +1,21 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: PushPls
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: [self-hosted, macOS, ARM64]
+    steps:
+      - name: git pull
+        run: cd /Users/conorvickers/capacitor && git pull
+      - name: build ios
+        run: cd /Users/conorvickers/capacitor && npm run cap
+      - name: upload fastlane
+        run: cd /Users/conorvickers/capacitor/ios/App && fastlane beta
