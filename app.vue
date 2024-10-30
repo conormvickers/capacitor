@@ -37,7 +37,11 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-bottom-sheet v-model="showtodo" @click:outside="onSheetDismissed">
+  <v-bottom-sheet
+    v-model="showtodo"
+    @click:outside="onSheetDismissed"
+    max-height="60vh"
+  >
     <v-card
       ><v-card-title> To Do </v-card-title
       ><v-card-text>
