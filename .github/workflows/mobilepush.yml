@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: [self-hosted, macOS, ARM64]
+    runs-on: self-hosted
     steps:
       - name: git pull
         run: cd /Users/conorvickers/capacitor && git pull
