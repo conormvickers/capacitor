@@ -58,7 +58,10 @@
                   ><span>{{ task.task }}</span></v-row
                 >
               </v-col>
-              <v-col>{{ todo.goal }}</v-col>
+              <v-col>
+                <v-chip> {{ todo.goal }} </v-chip
+                ><v-icon @click="addAndSelect(todo.goal)">mdi-plus</v-icon>
+              </v-col>
 
               <v-divider></v-divider> </v-row
           ></v-container> </v-list
@@ -203,21 +206,7 @@
         <v-btn icon="mdi-content-save" @click="save_changes"></v-btn>
         <v-btn icon="mdi-magnify-minus-outline" @click="zoomOut"></v-btn>
         <v-btn icon="mdi-plus" @click="addFreeNode"></v-btn>
-        <!--<v-btn icon="mdi-plus" id="new-activator"></v-btn>
-  
-  
-           <v-menu :close-on-content-click="false" activator="#new-activator">
-            <v-card
-              ><v-text-field
-                style="width: 300px"
-                v-model="newTitle"
-                label="New Title"
-              ></v-text-field>
-              <v-btn color="primary" block @click="newGraph">Save</v-btn></v-card
-            >
-          </v-menu> -->
 
-        <!-- <v-btn icon="mdi-dots-vertical" id="menu-activator"></v-btn> -->
         <v-btn icon="mdi-clipboard" @click="clipboard = true"></v-btn>
         <v-menu activator="#menu-activator">
           <v-list>
@@ -233,91 +222,6 @@
           </v-list>
         </v-menu>
       </v-row>
-      <!-- <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-title>Edit Graph</v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <div style="height: 200px; overflow: auto">
-                <table>
-                  <thead>
-                    <tr>
-                 
-                      <th>Label</th>
-                      <th>Shape</th>
-                      <th>Level</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in nodetable" :key="index">
-                  
-                      <td>
-                        <input
-                          type="text"
-                          v-model="item.label"
-                          @input="updateItem(item, index)"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          style="max-width: 100px"
-                          v-model="item.shape"
-                          @input="updateItem(item, index)"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          v-model="item.level"
-                          @input="updateItem(item, index)"
-                        />
-                      </td>
-                      <td>
-                        <button @click="deleteItem(index)">Delete</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <v-btn @click="addItem()">Add</v-btn>
-                </table>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>to</th>
-                      <th>from</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, index) in edgesTable" :key="index">
-                      <td>{{ item.id }}</td>
-                      <td>
-                        <input
-                          type="text"
-                          v-model="item.to"
-                          @input="updateEdge(item, index)"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          style="max-width: 100px"
-                          v-model="item.from"
-                          @input="updateEdge(item, index)"
-                        />
-                      </td>
-                      <td>
-                        <button @click="deleteEdge(index)">Delete</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <v-btn @click="addEdge()">Add</v-btn>
-                </table>
-              </div>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels> -->
     </div>
   </div>
   <v-dialog v-model="clipboard" type="info" dense text max-width="500">
@@ -392,6 +296,24 @@ var frozenColors = [
   "ADCCF3",
   "B9CCF0",
 ];
+
+function addAndSelect(title) {
+  console.log("searching for ", title);
+  const findnode = nodes.get({
+    filter: function (item) {
+      return item.label == title;
+    },
+  })[0];
+
+  if (findnode) {
+    console.log("found", findnode);
+    selectedNode.value = findnode.id;
+    showtodo.value = false;
+    addAttachedNode();
+  } else {
+    console.log("ERROR finding node");
+  }
+}
 
 function onSheetDismissed() {
   var toremove = [];
@@ -493,7 +415,7 @@ function findPinnedPoint(nodeId, seenEdges = []) {
       if (!seenEdges.includes(connectedEdges[i])) {
         const tonode = nodes.get(connectedEdges[i].to);
 
-        if (tonode.type == "pinned") {
+        if (tonode && tonode.type == "pinned") {
           nodeends.push(tonode.label);
         } else {
         }
