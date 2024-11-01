@@ -59,7 +59,7 @@
                 >
               </v-col>
               <v-col>
-                <v-chip> {{ todo.goal }} </v-chip
+                <v-chip @click="zoomTo(todo.goal)"> {{ todo.goal }} </v-chip
                 ><v-icon @click="addAndSelect(todo.goal)">mdi-plus</v-icon>
               </v-col>
 
@@ -297,6 +297,20 @@ var frozenColors = [
   "B9CCF0",
 ];
 
+function zoomTo(title) {
+  const findnode = nodes.get({
+    filter: function (item) {
+      return item.label == title;
+    },
+  })[0];
+  console.log(findnode);
+
+  if (findnode) {
+    showtodo.value = false;
+    network.fit({ nodes: [findnode.id] });
+  }
+}
+
 function addAndSelect(title) {
   console.log("searching for ", title);
   const findnode = nodes.get({
@@ -347,12 +361,7 @@ function restoreNode(node) {
 
 function getToDo() {
   const firenodes = nodes.get({
-    /*************  ✨ Codeium Command ⭐  *************/
-    // Filter function to select nodes with type 'fire'.
-    // Return true to include node, false to exclude.
-    /******  8c789de1-f47b-4b1d-8710-0c601680f7f8  *******/ filter: function (
-      node
-    ) {
+    filter: function (node) {
       return node.type == "fire";
     },
   });
@@ -603,6 +612,7 @@ function showMenu(input) {
         fire.value = currentType == "fire";
         frozen.value = currentType == "frozen";
         pinned.value = currentType == "pinned";
+        isValidUrl.value = validateUrl(nodeDetails.value);
       }
     }
   } else if (
